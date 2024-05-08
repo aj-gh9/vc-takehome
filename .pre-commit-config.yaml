@@ -1,0 +1,48 @@
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
+repos:
+  - repo: https://github.com/bjd2385/pre-commit-gitlabci-lint
+    rev: v1.3.0
+    hooks:
+      - id: gitlabci-lint
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.5.0
+    hooks:
+      - id: commitlint
+        stages: [ commit-msg ]
+        additional_dependencies:
+          - commitlint-plugin-function-rules
+          - '@commitlint/config-conventional'
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: end-of-file-fixer
+      - id: requirements-txt-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.1-beta
+    hooks:
+      - id: hadolint
+        args: [
+            "--ignore",
+            "DL3027", # Do not use apt
+            "--ignore",
+            "DL3007", # Using latest
+            "--ignore",
+            "DL4006", # Not related to alpine
+            "--ignore",
+            "SC1091", # Useless check
+            "--ignore",
+            "SC2015", # Useless check
+            "--ignore",
+            "SC3037", # Not related to alpine
+            "--ignore",
+            "DL3013", # Pin versions in pip
+          ]
